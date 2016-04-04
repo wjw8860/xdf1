@@ -11,22 +11,27 @@
     <link rel="stylesheet" href="style/ck-style.css">
 </head>
 <body>
+<!--
+class="page-animation" 是全局动画。
+如果网速慢会出现图片没有加载完，动画播完影响效果。
+请加loading，或者等图片加载完成在给page 加class  page-animation
+-->
+
 <!--index-->
-<section class="page">
+<section class="page page-animation ">
     <div class="page-container page-space">
         <header class="bj-auto head-bj">
             <div class="ck-head">
                 <div class="t-logo"></div>
                 <div class="bg1 ck-head-title"></div>
                 <div class="bg1 lightning"></div>
-                <div class="text1">价值 <em>9800</em> 元</div>
+                <div class="text1">价值<em>9800</em>元</div>
                 <div class="text2">优能一对一中考语文提高班</div>
                 <div class="bg1 big-cow"></div>
                 <div class="bg1 ck-count-down"><div class="inner">剩余<br>1天</div></div>
             </div>
-
             <!--筹课进度-->
-            <div class="ck-rate hide">
+            <div class="ck-rate">
                 <a class="bg1 explain1" href="#"></a>
                 <a class="bg1 explain2" href="#"></a>
                 <div class="top-setbacks">
@@ -55,9 +60,8 @@
                 </div>
             </div>
             <!--筹课进度 end-->
-
             <!--筹课说明-->
-            <div class="ck-info">
+            <div class="ck-info hide">
                 <h1 class="f20">新东方优能一对一标准课</h1>
                 <p class="f12">适用人群：北京中学 初一到初三</p>
                 <p class="f12">活动时间：2015年01月01日 - 2015年02月02日</p>
@@ -66,9 +70,9 @@
         </header>
 
         <!--筹课list-->
-        <div class="hide">
+        <div class="">
             <!--中奖信息-->
-            <div class="winning-info yes-winning hide"> <!--yes-winning-->
+            <div class="winning-info no-winning"> <!--中奖class  yes-winning-->
                 <div class="pic"><img src="images/pic.jpg" alt=""></div>
                 <div class="info">
                     <p class="f18">李建键同学</p>
@@ -307,7 +311,7 @@
         <!--筹课list end-->
 
         <!--筹课说明-->
-        <div class="ck-explain">
+        <div class="ck-explain hide">
             <div class="user-list-skin">
                 <div class="user-list-title f18 clear">
                     <span>课程说明</span>
@@ -333,7 +337,7 @@
     </div>
     <div class="fixed fixed-b">
         <div class="down-app">
-            <div class="bg1 hint-help"><a class="bg1 close" href="#"></a></div>
+            <!--<div class="bg1 hint-help"><a class="bg1 close" href="#"></a></div>-->  <!--提示层-->
             <div class="left">
                 <div class="logo"></div>
                 <div class="down-app-txt"></div>
@@ -349,8 +353,8 @@
 <!--index end-->
 
 <!--抽奖-->
-<section class="page hide">
-    <div class="page-container">
+<section class="page page-animation hide">
+    <div class="page-container page-space2">
         <div class=" ck-draw">
             <div class="bj-auto ck-draw-bg">
                 <div class="bg1 shake-text"></div>
@@ -438,7 +442,7 @@
     </div>
 </section>
 
-<!--摇奖提示-->
+<!--填写信息-->
 <section class="popup hide" id="fillinInfo">
     <a class="bg1 close" href="#"></a>
     <div class="head"></div>
@@ -499,13 +503,60 @@
         <p>我们准备了1元试听课送给您......<br> 赶快去体验吧！</p>
     </div>
 </section>
-</body>
+
 <script>
+    //计算popup居中
     var aPopup=document.querySelectorAll('.popup');
     for(var i=0;i<aPopup.length;i++)
     {
         var h=aPopup[i].offsetHeight;
         aPopup[i].style.marginTop=-h/2+'px';
     }
+
+    /*无缝滚动*/
+    (function()
+    {
+        scroll('rollList1');
+        scroll('rollList2');
+        function scroll(id)
+        {
+            var aRollList=document.getElementById(id);
+            var head=document.querySelector('head');
+            if(aRollList.children.length>4)
+            {
+                aRollList.innerHTML+=aRollList.innerHTML;
+
+                var h=aRollList.offsetHeight;
+                var style=document.createElement('style');
+                style.innerHTML='@-webkit-keyframes scrollText1 {'
+                        + '0%{-webkit-transform: translateY(0px);}'
+                        + '100%{-webkit-transform: translateY(-'+h/2+'px);}'
+                        + '}';
+                head.appendChild(style);
+
+                aRollList.setAttribute('style', '-webkit-animation:scrollText1 '+h/30+'s infinite linear;');
+            }
+        }
+    })();
+
+    /*禁止滚动*/
+    (function()
+    {
+        var oMask=document.querySelector('.mask');
+        oMask.addEventListener('touchmove', function(e)
+        {
+            e.preventDefault();
+        }, false);
+        var popup=document.querySelectorAll('.popup');
+        for(var i=0;i<popup.length;i++)
+        {
+            popup[i].addEventListener('touchmove', function(e)
+            {
+                e.preventDefault();
+            }, false);
+        }
+    })();
+
 </script>
+</body>
 </html>
